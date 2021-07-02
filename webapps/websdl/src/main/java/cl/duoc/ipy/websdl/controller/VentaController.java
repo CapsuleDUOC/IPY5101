@@ -17,6 +17,9 @@ import org.springframework.web.bind.annotation.RestController;
 
 import cl.duoc.ipy.websdl.domain.Sucursal;
 import cl.duoc.ipy.websdl.domain.Venta;
+import cl.duoc.ipy.websdl.dto.VentaType;
+import cl.duoc.ipy.websdl.dto.input.InputVentaCrear;
+import cl.duoc.ipy.websdl.dto.output.OutputVentaConsultar;
 import cl.duoc.ipy.websdl.enums.EstadoVenta;
 import cl.duoc.ipy.websdl.enums.TipoDespacho;
 import cl.duoc.ipy.websdl.enums.TipoPago;
@@ -37,17 +40,31 @@ public class VentaController {
 	}
 
 	@PostMapping
-	ResponseEntity<Venta> crear(@PathVariable(name = "codigoSucursal") String codigoSucursal,
-			@RequestBody Venta inputDTO) {
+	ResponseEntity<VentaType> crear(@PathVariable(name = "codigoSucursal") String codigoSucursal,
+			@RequestBody InputVentaCrear inputDTO) {
 
 		Sucursal sucursal = sucursalService.obtener(codigoSucursal);
 		Venta venta = ventaService.crear(sucursal, inputDTO);
+		
+		final VentaType ventaType = new VentaType();
+		ventaType.setClienteRut(venta.getCliente().getRut());
+		ventaType.setCodigoSucursal(venta.getSucursal().getCodigo());
+		ventaType.setEstado(venta.getEstado());
+		ventaType.setFecha(venta.getFecha());
+		ventaType.setFolio(venta.getFolio());
+		ventaType.setMontoBruto(venta.getMontoBruto());
+		ventaType.setMontoIva(venta.getMontoIva());
+		ventaType.setMontoTotal(venta.getMontoTotal());
+		ventaType.setTipoDespacho(venta.getTipoDespacho());
+		ventaType.setTipoDTE(venta.getTipoDte());
+		ventaType.setTipoPago(venta.getTipoPago());
+		ventaType.setVendedorEmail(venta.getVendedor().getMail());
 
-		return ResponseEntity.status(HttpStatus.CREATED).body(venta);
+		return ResponseEntity.status(HttpStatus.CREATED).body(ventaType);
 	}
 
 	@GetMapping
-	ResponseEntity<List<Venta>> consultar(@PathVariable(name = "codigoSucursal") String codigoSucursal,
+	ResponseEntity<OutputVentaConsultar> consultar(@PathVariable(name = "codigoSucursal") String codigoSucursal,
 			@RequestParam(name = "tipoDTE", required = false) final String tipoDTE,
 			@RequestParam(name = "folio", required = false) final Long folio,
 			@RequestParam(name = "fechaEmision", required = false) final LocalDate fechaEmision,
@@ -60,18 +77,51 @@ public class VentaController {
 		Sucursal sucursal = sucursalService.obtener(codigoSucursal);
 		List<Venta> ventas = ventaService.consultar(sucursal, tipoDTE, folio, fechaEmision, clienteRut, vendedorEmail,
 				estado, tipoPago, tipoDespacho);
+		
+		OutputVentaConsultar outputDTO = new OutputVentaConsultar();
+		for (Venta venta : ventas) {
+			final VentaType ventaType = new VentaType();
+			ventaType.setClienteRut(venta.getCliente().getRut());
+			ventaType.setCodigoSucursal(venta.getSucursal().getCodigo());
+			ventaType.setEstado(venta.getEstado());
+			ventaType.setFecha(venta.getFecha());
+			ventaType.setFolio(venta.getFolio());
+			ventaType.setMontoBruto(venta.getMontoBruto());
+			ventaType.setMontoIva(venta.getMontoIva());
+			ventaType.setMontoTotal(venta.getMontoTotal());
+			ventaType.setTipoDespacho(venta.getTipoDespacho());
+			ventaType.setTipoDTE(venta.getTipoDte());
+			ventaType.setTipoPago(venta.getTipoPago());
+			ventaType.setVendedorEmail(venta.getVendedor().getMail());
+			
+			outputDTO.getRegistros().add(ventaType);
+		}
 
-		return ResponseEntity.ok(ventas);
+		return ResponseEntity.ok(outputDTO);
 	}
 
 	@GetMapping("/{id}")
-	ResponseEntity<Venta> obtener(@PathVariable(name = "codigoSucursal") String codigoSucursal,
+	ResponseEntity<VentaType> obtener(@PathVariable(name = "codigoSucursal") String codigoSucursal,
 			@PathVariable(name = "id") Long id) {
 
 		Sucursal sucursal = sucursalService.obtener(codigoSucursal);
 		Venta venta = ventaService.obtener(sucursal, id);
+		
+		final VentaType ventaType = new VentaType();
+		ventaType.setClienteRut(venta.getCliente().getRut());
+		ventaType.setCodigoSucursal(venta.getSucursal().getCodigo());
+		ventaType.setEstado(venta.getEstado());
+		ventaType.setFecha(venta.getFecha());
+		ventaType.setFolio(venta.getFolio());
+		ventaType.setMontoBruto(venta.getMontoBruto());
+		ventaType.setMontoIva(venta.getMontoIva());
+		ventaType.setMontoTotal(venta.getMontoTotal());
+		ventaType.setTipoDespacho(venta.getTipoDespacho());
+		ventaType.setTipoDTE(venta.getTipoDte());
+		ventaType.setTipoPago(venta.getTipoPago());
+		ventaType.setVendedorEmail(venta.getVendedor().getMail());
 
-		return ResponseEntity.ok(venta);
+		return ResponseEntity.ok(ventaType);
 	}
 
 	@PutMapping("/{id}")
