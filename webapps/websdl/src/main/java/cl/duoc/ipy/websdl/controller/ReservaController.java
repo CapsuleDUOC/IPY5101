@@ -16,6 +16,9 @@ import org.springframework.web.bind.annotation.RestController;
 
 import cl.duoc.ipy.websdl.domain.Cliente;
 import cl.duoc.ipy.websdl.domain.Reserva;
+import cl.duoc.ipy.websdl.dto.ReservaType;
+import cl.duoc.ipy.websdl.dto.input.InputResercaCrear;
+import cl.duoc.ipy.websdl.dto.output.OutputReservaConsultar;
 import cl.duoc.ipy.websdl.enums.EstadoReserva;
 import cl.duoc.ipy.websdl.service.ClienteService;
 import cl.duoc.ipy.websdl.service.ReservaService;
@@ -34,16 +37,21 @@ public class ReservaController {
 	}
 
 	@PostMapping
-	ResponseEntity<Reserva> crear(@PathVariable(name = "clienteRut") String clienteRut, @RequestBody Reserva inputDTO) {
+	ResponseEntity<ReservaType> crear(@PathVariable(name = "clienteRut") String clienteRut, @RequestBody InputResercaCrear inputDTO) {
 
 		Cliente cliente = clienteService.obtener(clienteRut);
 		Reserva reserva = reservaService.crear(cliente, inputDTO);
+		
+		ReservaType reservaType = new ReservaType();
+		reservaType.setId(reserva.getId());
+		reservaType.setEstado(reserva.getEstado());
+		reservaType.setVentaId(reserva.getVenta().getId());
 
-		return ResponseEntity.status(HttpStatus.CREATED).body(reserva);
+		return ResponseEntity.status(HttpStatus.CREATED).body(reservaType);
 	}
 
 	@GetMapping
-	ResponseEntity<List<Reserva>> consultar(@PathVariable(name = "clienteRut") String clienteRut,
+	ResponseEntity<OutputReservaConsultar> consultar(@PathVariable(name = "clienteRut") String clienteRut,
 			@RequestParam(name = "estado", required = false) final EstadoReserva estado,
 			@RequestParam(name = "ventaId", required = false) final Long ventaId,
 			@RequestParam(name = "offset", defaultValue = "0") final Integer offset,
@@ -51,8 +59,19 @@ public class ReservaController {
 
 		Cliente cliente = clienteService.obtener(clienteRut);
 		List<Reserva> reservas = reservaService.consultar(cliente, estado, ventaId, offset, limit);
-
-		return ResponseEntity.ok(reservas);
+		
+		final OutputReservaConsultar outputDTO = new OutputReservaConsultar();
+		for (Reserva reserva : reservas) {
+			ReservaType reservaType = new ReservaType();
+			reservaType.setId(reserva.getId());
+			reservaType.setEstado(reserva.getEstado());
+			reservaType.setVentaId(reserva.getVenta().getId());
+			
+			outputDTO.getRegistros().add(reservaType);
+		}
+				
+		
+		return ResponseEntity.ok(outputDTO);
 	}
 
 	@GetMapping("/{id}")

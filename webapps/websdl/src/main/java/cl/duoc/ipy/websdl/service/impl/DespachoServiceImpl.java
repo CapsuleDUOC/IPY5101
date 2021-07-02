@@ -13,6 +13,7 @@ import cl.duoc.ipy.websdl.domain.Cliente;
 import cl.duoc.ipy.websdl.domain.Comuna;
 import cl.duoc.ipy.websdl.domain.Despacho;
 import cl.duoc.ipy.websdl.domain.Venta;
+import cl.duoc.ipy.websdl.dto.input.InputDespachoCrear;
 import cl.duoc.ipy.websdl.enums.EstadoDespacho;
 import cl.duoc.ipy.websdl.repository.DespachoRepository;
 import cl.duoc.ipy.websdl.repository.IDespachoDAO;
@@ -39,13 +40,13 @@ public class DespachoServiceImpl implements DespachoService {
 	}
 
 	@Override
-	public Despacho crear(Cliente cliente, Despacho inputDTO) {
+	public Despacho crear(Cliente cliente, InputDespachoCrear inputDTO) {
 
-		Venta venta = ventaService.obtener(inputDTO.getVenta().getId());
+		Venta venta = ventaService.obtener(inputDTO.getVentaId());
 
 		Despacho despacho = new Despacho();
 		despacho.setCliente(cliente);
-		despacho.setComuna(comunaService.obtener(inputDTO.getComuna().getNombre()));
+		despacho.setComuna(comunaService.obtener(inputDTO.getComuna()));
 		despacho.setDireccion(inputDTO.getDireccion());
 		despacho.setEstado(inputDTO.getEstado());
 		despacho.setVenta(venta);

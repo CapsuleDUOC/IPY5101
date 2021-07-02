@@ -12,6 +12,8 @@ import org.springframework.web.bind.annotation.RestController;
 import cl.duoc.ipy.websdl.domain.Sucursal;
 import cl.duoc.ipy.websdl.domain.Venta;
 import cl.duoc.ipy.websdl.domain.VentaBitacora;
+import cl.duoc.ipy.websdl.dto.BitacoraType;
+import cl.duoc.ipy.websdl.dto.output.OutputBitacoraConsultar;
 import cl.duoc.ipy.websdl.service.SucursalService;
 import cl.duoc.ipy.websdl.service.VentaBitacoraService;
 import cl.duoc.ipy.websdl.service.VentaService;
@@ -33,12 +35,24 @@ public class VentaBitacoraController {
 	}
 
 	@GetMapping("/{ventaId}")
-	ResponseEntity<List<VentaBitacora>> consultar(@PathVariable(name = "codigoSucursal") String codigoSucursal,
+	ResponseEntity<OutputBitacoraConsultar> consultar(@PathVariable(name = "codigoSucursal") String codigoSucursal,
 			@PathVariable(name = "ventaId") Long ventaId) {
 
 		Sucursal sucursal = sucursalService.obtener(codigoSucursal);
 		Venta venta = ventaService.obtener(sucursal, ventaId);
 
-		return ResponseEntity.ok(ventaBitacoraService.consultar(venta));
+		List<VentaBitacora> bitacoras = ventaBitacoraService.consultar(venta);
+		
+		final OutputBitacoraConsultar outputDTO = new OutputBitacoraConsultar();
+		for (VentaBitacora bitacora : bitacoras) {
+			final BitacoraType bitacoraType = new BitacoraType();
+			bitacoraType.setId(bitacora.getId());
+			bitacoraType.setInstante(bitacora.getRegistroInstante());
+			bitacoraType.setNota(bitacora.getNota());
+			
+			outputDTO.getRegistros().add(bitacoraType);
+		}
+		
+		return ResponseEntity.ok(outputDTO);
 	}
 }

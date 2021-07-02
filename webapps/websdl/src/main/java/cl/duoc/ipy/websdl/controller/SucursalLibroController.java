@@ -15,6 +15,9 @@ import org.springframework.web.bind.annotation.RestController;
 
 import cl.duoc.ipy.websdl.domain.Sucursal;
 import cl.duoc.ipy.websdl.domain.SucursalLibro;
+import cl.duoc.ipy.websdl.dto.SucursalLibroType;
+import cl.duoc.ipy.websdl.dto.input.InputSucursalLibroCrear;
+import cl.duoc.ipy.websdl.dto.output.OutputSucursalLibroConsultar;
 import cl.duoc.ipy.websdl.service.SucursalLibroService;
 import cl.duoc.ipy.websdl.service.SucursalService;
 
@@ -32,22 +35,39 @@ public class SucursalLibroController {
 	}
 	
 	@PostMapping
-	ResponseEntity<SucursalLibro> crear(@PathVariable(name = "codigoSucursal") String codigoSucursal, @RequestBody SucursalLibro inputDTO){
+	ResponseEntity<SucursalLibroType> crear(@PathVariable(name = "codigoSucursal") String codigoSucursal, @RequestBody InputSucursalLibroCrear inputDTO){
 		
 		Sucursal sucursal = sucursalService.obtener(codigoSucursal);
 		SucursalLibro sucursalLibro = sucursalLibroService.crear(sucursal, inputDTO);
 		
-		return ResponseEntity.status(HttpStatus.CREATED).body(sucursalLibro);
+		final SucursalLibroType sucursalLibroType = new SucursalLibroType();
+		sucursalLibroType.setCodigoSucursal(sucursalLibro.getSucursal().getCodigo());
+		sucursalLibroType.setId(sucursalLibro.getId());
+		sucursalLibroType.setNombreLibro(sucursalLibro.getLibro().getNombre());
+		sucursalLibro.setStock(sucursalLibro.getStock());
+		
+		return ResponseEntity.status(HttpStatus.CREATED).body(sucursalLibroType);
 
 	}
 	
 	@GetMapping
-	ResponseEntity<List<SucursalLibro>> consultar(@PathVariable(name = "codigoSucursal") String codigoSucursal){
+	ResponseEntity<OutputSucursalLibroConsultar> consultar(@PathVariable(name = "codigoSucursal") String codigoSucursal){
 		
 		Sucursal sucursal = sucursalService.obtener(codigoSucursal);
 		List<SucursalLibro> sucursalLibros = sucursalLibroService.consultar(sucursal);
 		
-		return ResponseEntity.ok(sucursalLibros);
+		final OutputSucursalLibroConsultar outputDTO = new OutputSucursalLibroConsultar();
+		for (SucursalLibro sucursalLibro : sucursalLibros) {
+			final SucursalLibroType sucursalLibroType = new SucursalLibroType();
+			sucursalLibroType.setCodigoSucursal(sucursalLibro.getSucursal().getCodigo());
+			sucursalLibroType.setId(sucursalLibro.getId());
+			sucursalLibroType.setNombreLibro(sucursalLibro.getLibro().getNombre());
+			sucursalLibro.setStock(sucursalLibro.getStock());
+			
+			outputDTO.getRegistros().add(sucursalLibroType);
+		}
+		
+		return ResponseEntity.ok(outputDTO);
 	}
 	
 	@GetMapping("/{id}")

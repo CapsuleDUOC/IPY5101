@@ -14,6 +14,8 @@ import cl.duoc.ipy.websdl.domain.Libro;
 import cl.duoc.ipy.websdl.domain.Sucursal;
 import cl.duoc.ipy.websdl.domain.Vendedor;
 import cl.duoc.ipy.websdl.domain.Venta;
+import cl.duoc.ipy.websdl.dto.RegistroVentaLibro;
+import cl.duoc.ipy.websdl.dto.input.InputVentaCrear;
 import cl.duoc.ipy.websdl.enums.EstadoVenta;
 import cl.duoc.ipy.websdl.enums.TipoDespacho;
 import cl.duoc.ipy.websdl.enums.TipoPago;
@@ -46,15 +48,15 @@ public class VentaServiceImpl implements VentaService{
 	}
 
 	@Override
-	public Venta crear(Sucursal sucursal, Venta inputDTO) {
+	public Venta crear(Sucursal sucursal, InputVentaCrear inputDTO) {
 		
-		Optional<Venta> _venta = ventaRepository.findBySucursalAndTipoDteAndFolio(sucursal, inputDTO.getTipoDte(), inputDTO.getFolio());
+		Optional<Venta> _venta = ventaRepository.findBySucursalAndTipoDteAndFolio(sucursal, inputDTO.getTipoDTE(), inputDTO.getFolio());
 		if (_venta.isPresent())
 			return _venta.get();
 		
 		Venta venta = new Venta();
-		venta.setCliente(clienteService.obtener(inputDTO.getCliente().getRut()));
-		venta.setVendedor(vendedorService.obtener(sucursal, inputDTO.getVendedor().getMail()));
+		venta.setCliente(clienteService.obtener(inputDTO.getClienteRut()));
+		venta.setVendedor(vendedorService.obtener(sucursal, inputDTO.getVendedorEmail()));
 		venta.setEstado(inputDTO.getEstado());
 		venta.setFecha(inputDTO.getFecha());
 		venta.setFolio(inputDTO.getFolio());
@@ -63,7 +65,7 @@ public class VentaServiceImpl implements VentaService{
 		venta.setMontoTotal(inputDTO.getMontoTotal());
 		venta.setSucursal(sucursal);
 		venta.setTipoDespacho(inputDTO.getTipoDespacho());
-		venta.setTipoDte(inputDTO.getTipoDte());
+		venta.setTipoDte(inputDTO.getTipoDTE());
 		venta.setTipoPago(inputDTO.getTipoPago());
 		
 		
