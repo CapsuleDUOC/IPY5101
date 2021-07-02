@@ -15,6 +15,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class VentaType {
 
+	private Long id;
 	private String clienteRut;
 	private String vendedorEmail;
 	private EstadoVenta estado;

@@ -47,6 +47,7 @@ public class VentaController {
 		Venta venta = ventaService.crear(sucursal, inputDTO);
 		
 		final VentaType ventaType = new VentaType();
+		ventaType.setId(venta.getId());
 		ventaType.setClienteRut(venta.getCliente().getRut());
 		ventaType.setCodigoSucursal(venta.getSucursal().getCodigo());
 		ventaType.setEstado(venta.getEstado());
@@ -81,6 +82,7 @@ public class VentaController {
 		OutputVentaConsultar outputDTO = new OutputVentaConsultar();
 		for (Venta venta : ventas) {
 			final VentaType ventaType = new VentaType();
+			ventaType.setId(venta.getId());
 			ventaType.setClienteRut(venta.getCliente().getRut());
 			ventaType.setCodigoSucursal(venta.getSucursal().getCodigo());
 			ventaType.setEstado(venta.getEstado());

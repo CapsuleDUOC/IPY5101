@@ -44,6 +44,7 @@ public class DespachoController {
 		Despacho despacho = despachoService.crear(cliente, inputDTO);
 		
 		final DespachoType despachoType = new DespachoType();
+		despachoType.setId(despacho.getId());
 		despachoType.setClienteRut(despacho.getCliente().getRut());
 		despachoType.setComuna(despacho.getComuna().getNombre());
 		despachoType.setDireccion(despacho.getDireccion());
@@ -69,6 +70,7 @@ public class DespachoController {
 		final OutputDespachoConsultar outputDTO = new OutputDespachoConsultar();
 		for (Despacho despacho : despachos) {
 			final DespachoType despachoType = new DespachoType();
+			despachoType.setId(despacho.getId());
 			despachoType.setClienteRut(despacho.getCliente().getRut());
 			despachoType.setComuna(despacho.getComuna().getNombre());
 			despachoType.setDireccion(despacho.getDireccion());
@@ -82,19 +84,12 @@ public class DespachoController {
 	}
 
 	@GetMapping("/{id}")
-	ResponseEntity<DespachoType> obtener(@PathVariable(name = "clienteRut") String clienteRut,
+	ResponseEntity<Despacho> obtener(@PathVariable(name = "clienteRut") String clienteRut,
 			@PathVariable(name = "id") Long id) {
 		Cliente cliente = clienteService.obtener(clienteRut);
 		Despacho despacho = despachoService.obtener(cliente, id);
 		
-		final DespachoType despachoType = new DespachoType();
-		despachoType.setClienteRut(despacho.getCliente().getRut());
-		despachoType.setComuna(despacho.getComuna().getNombre());
-		despachoType.setDireccion(despacho.getDireccion());
-		despachoType.setEstado(despacho.getEstado());
-		despachoType.setVentaId(despacho.getVenta().getId());
-		
-		return ResponseEntity.ok(despachoType);
+		return ResponseEntity.ok(despacho);
 	}
 
 	@PutMapping("/{id}")

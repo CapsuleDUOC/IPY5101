@@ -12,6 +12,7 @@ import org.springframework.util.Assert;
 import cl.duoc.ipy.websdl.domain.Cliente;
 import cl.duoc.ipy.websdl.domain.Reserva;
 import cl.duoc.ipy.websdl.domain.Venta;
+import cl.duoc.ipy.websdl.dto.input.InputResercaCrear;
 import cl.duoc.ipy.websdl.enums.EstadoReserva;
 import cl.duoc.ipy.websdl.repository.IReservaDAO;
 import cl.duoc.ipy.websdl.repository.ReservaRepository;
@@ -35,14 +36,14 @@ public class ReservaServiceImpl implements ReservaService {
 	}
 
 	@Override
-	public Reserva crear(Cliente cliente, Reserva inputDTO) {
+	public Reserva crear(Cliente cliente, InputResercaCrear inputDTO) {
 
 		Reserva reserva = new Reserva();
 		reserva.setCliente(cliente);
 		reserva.setEstado(inputDTO.getEstado());
 
-		if (inputDTO.getVenta() != null)
-			reserva.setVenta(ventaService.obtener(inputDTO.getVenta().getId()));
+		if (inputDTO.getVentaId() != null)
+			reserva.setVenta(ventaService.obtener(inputDTO.getVentaId()));
 
 		return reservaRepository.save(reserva);
 	}
