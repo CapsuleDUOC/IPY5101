@@ -12,6 +12,8 @@ import org.springframework.web.bind.annotation.RestController;
 import cl.duoc.ipy.websdl.domain.Sucursal;
 import cl.duoc.ipy.websdl.domain.Venta;
 import cl.duoc.ipy.websdl.domain.VentaLibro;
+import cl.duoc.ipy.websdl.dto.VentaLibroType;
+import cl.duoc.ipy.websdl.dto.output.OutputVentaLibroConsultar;
 import cl.duoc.ipy.websdl.service.SucursalService;
 import cl.duoc.ipy.websdl.service.VentaLibroService;
 import cl.duoc.ipy.websdl.service.VentaService;
@@ -33,12 +35,26 @@ public class VentaLibroController {
 	}
 
 	@GetMapping("/{ventaId}")
-	ResponseEntity<List<VentaLibro>> consultar(@PathVariable(name = "codigoSucursal") String codigoSucursal,
+	ResponseEntity<OutputVentaLibroConsultar> consultar(@PathVariable(name = "codigoSucursal") String codigoSucursal,
 			@PathVariable(name = "ventaId") Long ventaId) {
 
 		Sucursal sucursal = sucursalService.obtener(codigoSucursal);
 		Venta venta = ventaService.obtener(sucursal, ventaId);
 
-		return ResponseEntity.ok(ventaLibroService.consultar(venta));
+		List<VentaLibro> ventaLibros = ventaLibroService.consultar(venta);
+		
+		final OutputVentaLibroConsultar outputDTO = new OutputVentaLibroConsultar();
+		for (VentaLibro ventaLibro : ventaLibros) {
+			
+			VentaLibroType ventaLibroType = new VentaLibroType();
+			
+			ventaLibroType.setCantidad(ventaLibro.getCantidad());
+			ventaLibroType.setId(ventaLibro.getId());
+			ventaLibroType.setNombreLibro(ventaLibro.getLibro().getNombre());
+			ventaLibroType.setPrecioLUnitario(ventaLibro.getPrecioUnitario());
+			ventaLibroType.setVentaId(ventaLibro.getVenta().getId());
+		}
+		
+		return ResponseEntity.ok(outputDTO);
 	}
 }

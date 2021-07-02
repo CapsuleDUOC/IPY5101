@@ -4,10 +4,11 @@ import java.util.List;
 
 import cl.duoc.ipy.websdl.domain.Sucursal;
 import cl.duoc.ipy.websdl.domain.SucursalLibro;
+import cl.duoc.ipy.websdl.dto.input.InputSucursalLibroCrear;
 
 public interface SucursalLibroService {
 
-	SucursalLibro crear(final Sucursal sucursal, final SucursalLibro inputDTO);
+	SucursalLibro crear(final Sucursal sucursal, final InputSucursalLibroCrear inputDTO);
 
 	List<SucursalLibro> consultar(final Sucursal sucursal);
 

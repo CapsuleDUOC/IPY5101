@@ -11,6 +11,7 @@ import org.springframework.util.Assert;
 import cl.duoc.ipy.websdl.domain.Libro;
 import cl.duoc.ipy.websdl.domain.Sucursal;
 import cl.duoc.ipy.websdl.domain.SucursalLibro;
+import cl.duoc.ipy.websdl.dto.input.InputSucursalLibroCrear;
 import cl.duoc.ipy.websdl.repository.SucursalLibroRepository;
 import cl.duoc.ipy.websdl.service.LibroService;
 import cl.duoc.ipy.websdl.service.SucursalLibroService;
@@ -29,9 +30,9 @@ public class SucursalLibroServiceImpl implements SucursalLibroService {
 	}
 
 	@Override
-	public SucursalLibro crear(Sucursal sucursal, SucursalLibro inputDTO) {
+	public SucursalLibro crear(Sucursal sucursal, InputSucursalLibroCrear inputDTO) {
 		
-		Libro libro = libroService.obtener(inputDTO.getLibro().getId());
+		Libro libro = libroService.obtener(inputDTO.getLibroId());
 
 		Optional<SucursalLibro> _sucursalLibro = sucursalLibroRepository.findBySucursalAndLibro(sucursal, libro);
 		if (_sucursalLibro.isPresent())
