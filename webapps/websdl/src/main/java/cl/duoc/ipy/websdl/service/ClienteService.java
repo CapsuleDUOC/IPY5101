@@ -10,8 +10,7 @@ public interface ClienteService {
 
 	Cliente obtener(final Long id);
 
-	List<Cliente> consultar(final String partRut, final String partNombre, final String partMail, final String comuna,
-			final Integer offset, final Integer limit);
+	List<Cliente> consultar(final String partRut, final String partNombre, final String partMail, final String comuna);
 
 	Boolean actualizar(Long id, Cliente clienteDTO);
 

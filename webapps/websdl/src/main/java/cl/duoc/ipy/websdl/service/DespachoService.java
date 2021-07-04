@@ -12,7 +12,7 @@ public interface DespachoService {
 	Despacho crear(final Cliente cliente, final InputDespachoCrear inputDTO);
 
 	List<Despacho> consultar(final Cliente cliente, final EstadoDespacho estadp, final String nombreComuna,
-			final String partDireccion, final Long ventaId, Integer offset, Integer limit);
+			final String partDireccion, final Long ventaId);
 
 	Despacho obtener(final Cliente cliente, final Long id);
 

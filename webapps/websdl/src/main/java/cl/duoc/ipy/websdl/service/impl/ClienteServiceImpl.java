@@ -5,7 +5,6 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
 
@@ -55,7 +54,7 @@ public class ClienteServiceImpl implements ClienteService {
 	}
 
 	@Override
-	public List<Cliente> consultar(String partRut, String partNombre, String partMail, String comunaStr, Integer offset, Integer limit) {
+	public List<Cliente> consultar(String partRut, String partNombre, String partMail, String comunaStr) {
 		
 		List<SearchCriteria> params = new ArrayList<>();
 		
@@ -68,7 +67,7 @@ public class ClienteServiceImpl implements ClienteService {
 			params.add(new SearchCriteria("comuna", null, SearchCriteria.OPERATION.like, comuna, null));
 		}
 		
-		return clienteDAO.search(params, PageRequest.of(offset, limit));
+		return clienteDAO.search(params);
 	}
 
 	@Override

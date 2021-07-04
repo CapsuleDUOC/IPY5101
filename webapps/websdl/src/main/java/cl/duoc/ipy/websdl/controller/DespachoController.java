@@ -59,13 +59,10 @@ public class DespachoController {
 			@RequestParam(name = "partComuna", required = false) final String partComuna,
 			@RequestParam(name = "estado", required = false) final EstadoDespacho estado,
 			@RequestParam(name = "partDireccion", required = false) final String partDireccion,
-			@RequestParam(name = "ventaId", required = false) final Long ventaId,
-			@RequestParam(name = "offset", defaultValue = "0") final Integer offset,
-			@RequestParam(name = "limit", defaultValue = "100") final Integer limit) {
+			@RequestParam(name = "ventaId", required = false) final Long ventaId) {
 
 		Cliente cliente = clienteService.obtener(clienteRut);
-		List<Despacho> despachos = despachoService.consultar(cliente, estado, partComuna, partDireccion, ventaId,
-				offset, limit);
+		List<Despacho> despachos = despachoService.consultar(cliente, estado, partComuna, partDireccion, ventaId);
 		
 		final OutputDespachoConsultar outputDTO = new OutputDespachoConsultar();
 		for (Despacho despacho : despachos) {

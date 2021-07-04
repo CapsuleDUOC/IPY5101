@@ -12,7 +12,6 @@ import javax.persistence.criteria.Order;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
 
-import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Repository;
 
 import cl.duoc.ipy.websdl.domain.Cliente;
@@ -26,7 +25,7 @@ public class ClienteDAO implements IClienteDAO{
 	private EntityManager entityManager;
 
 	@Override
-	public List<Cliente> search(List<SearchCriteria> params, Pageable pageable) {
+	public List<Cliente> search(List<SearchCriteria> params) {
 		final CriteriaBuilder builder = entityManager.getCriteriaBuilder();
 		final CriteriaQuery<Cliente> query = builder.createQuery(Cliente.class);
 		final Root<Cliente> root = query.from(Cliente.class);
@@ -77,7 +76,6 @@ public class ClienteDAO implements IClienteDAO{
 		orderList.add(builder.asc(root.get("id")));
 		query.where(predicate).orderBy(orderList);
 
-		return entityManager.createQuery(query.select(root)).setFirstResult(pageable.getPageNumber())
-				.setMaxResults(pageable.getPageSize()).getResultList();
+		return entityManager.createQuery(query.select(root)).getResultList();
 	}
 }

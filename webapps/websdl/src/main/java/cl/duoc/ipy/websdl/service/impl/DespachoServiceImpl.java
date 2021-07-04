@@ -5,7 +5,6 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
 
@@ -56,7 +55,7 @@ public class DespachoServiceImpl implements DespachoService {
 
 	@Override
 	public List<Despacho> consultar(Cliente cliente, EstadoDespacho estado, String nombreComuna, String partDireccion,
-			Long ventaId, Integer offset, Integer limit) {
+			Long ventaId) {
 
 		List<SearchCriteria> params = new ArrayList<>();
 
@@ -74,7 +73,7 @@ public class DespachoServiceImpl implements DespachoService {
 			params.add(new SearchCriteria("venta", null, SearchCriteria.OPERATION.equal, venta, null));
 		}
 
-		return despachoDAO.search(params, PageRequest.of(offset, limit));
+		return despachoDAO.search(params);
 
 	}
 
