@@ -9,7 +9,7 @@ public interface LibroService {
 	Libro crear(final Libro inputDTO);
 
 	List<Libro> consultar(final String isbn, final String partNombre, final String partAutor,
-			final String partEditorial, final Integer offset, final Integer limit);
+			final String partEditorial);
 
 	Libro obtener(final Long id);
 

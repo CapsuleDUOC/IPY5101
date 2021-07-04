@@ -39,11 +39,9 @@ public class LibroController {
 	ResponseEntity<List<Libro>> consultar(@RequestParam(name = "isbn", required = false) final String isbn,
 			@RequestParam(name = "partNombre", required = false) final String partNombre,
 			@RequestParam(name = "partAutor", required = false) final String partAutor,
-			@RequestParam(name = "partEditorial", required = false) final String partEditorial,
-			@RequestParam(name = "offset", defaultValue = "0") final Integer offset,
-			@RequestParam(name = "limit", defaultValue = "100") final Integer limit) {
+			@RequestParam(name = "partEditorial", required = false) final String partEditorial) {
 
-		List<Libro> libros = libroService.consultar(isbn, partNombre, partAutor, partEditorial, offset, limit);
+		List<Libro> libros = libroService.consultar(isbn, partNombre, partAutor, partEditorial);
 
 		return ResponseEntity.ok(libros);
 	}

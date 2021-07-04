@@ -5,7 +5,6 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
 
@@ -45,7 +44,7 @@ public class LibroServiceImpl implements LibroService{
 	}
 
 	@Override
-	public List<Libro> consultar(String isbn, String partNombre, String partAutor, String partEditorial, Integer offset, Integer limit) {
+	public List<Libro> consultar(String isbn, String partNombre, String partAutor, String partEditorial) {
 		
 		List<SearchCriteria> params = new ArrayList<>();
 		
@@ -58,7 +57,7 @@ public class LibroServiceImpl implements LibroService{
 		if (partEditorial != null)
 			params.add(new SearchCriteria("editorial", null, SearchCriteria.OPERATION.like, partEditorial, null));
 
-		return libroDAO.search(params, PageRequest.of(offset, limit));
+		return libroDAO.search(params);
 	}
 
 	@Override

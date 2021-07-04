@@ -12,7 +12,6 @@ import javax.persistence.criteria.Order;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
 
-import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Repository;
 
 import cl.duoc.ipy.websdl.domain.Libro;
@@ -26,7 +25,7 @@ public class LibroDAO implements ILibroDAO{
 	private EntityManager entityManager;
 
 	@Override
-	public List<Libro> search(List<SearchCriteria> params, Pageable pageable) {
+	public List<Libro> search(List<SearchCriteria> params) {
 		final CriteriaBuilder builder = entityManager.getCriteriaBuilder();
 		final CriteriaQuery<Libro> query = builder.createQuery(Libro.class);
 		final Root<Libro> root = query.from(Libro.class);
@@ -77,7 +76,6 @@ public class LibroDAO implements ILibroDAO{
 		orderList.add(builder.asc(root.get("id")));
 		query.where(predicate).orderBy(orderList);
 
-		return entityManager.createQuery(query.select(root)).setFirstResult(pageable.getPageNumber())
-				.setMaxResults(pageable.getPageSize()).getResultList();
+		return entityManager.createQuery(query.select(root)).getResultList();
 	}
 }

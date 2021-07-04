@@ -47,11 +47,9 @@ public class ClienteController {
 			@RequestParam(name = "partRut", required = false) final String partRut,
 			@RequestParam(name = "partNombre", required = false) final String partNombre,
 			@RequestParam(name = "partMail", required = false) final String partMail,
-			@RequestParam(name = "comuna", required = false) final String comuna,
-			@RequestParam(name = "offset", defaultValue = "0") final Integer offset, 
-			@RequestParam(name = "limit", defaultValue = "100") final Integer limit) {
+			@RequestParam(name = "comuna", required = false) final String comuna) {
 		
-		final List<Cliente> clientes = clienteService.consultar(partRut, partNombre, partMail, comuna, offset, limit);
+		final List<Cliente> clientes = clienteService.consultar(partRut, partNombre, partMail, comuna);
 
 		return ResponseEntity.ok(clientes);
 	}

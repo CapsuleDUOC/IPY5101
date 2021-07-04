@@ -53,12 +53,10 @@ public class ReservaController {
 	@GetMapping
 	ResponseEntity<OutputReservaConsultar> consultar(@PathVariable(name = "clienteRut") String clienteRut,
 			@RequestParam(name = "estado", required = false) final EstadoReserva estado,
-			@RequestParam(name = "ventaId", required = false) final Long ventaId,
-			@RequestParam(name = "offset", defaultValue = "0") final Integer offset,
-			@RequestParam(name = "limit", defaultValue = "100") final Integer limit) {
+			@RequestParam(name = "ventaId", required = false) final Long ventaId) {
 
 		Cliente cliente = clienteService.obtener(clienteRut);
-		List<Reserva> reservas = reservaService.consultar(cliente, estado, ventaId, offset, limit);
+		List<Reserva> reservas = reservaService.consultar(cliente, estado, ventaId);
 		
 		final OutputReservaConsultar outputDTO = new OutputReservaConsultar();
 		for (Reserva reserva : reservas) {

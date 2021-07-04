@@ -5,7 +5,6 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
 
@@ -68,7 +67,7 @@ public class ReservaServiceImpl implements ReservaService {
 	}
 
 	@Override
-	public List<Reserva> consultar(Cliente cliente, EstadoReserva estado, Long ventaId, Integer offset, Integer limit) {
+	public List<Reserva> consultar(Cliente cliente, EstadoReserva estado, Long ventaId) {
 
 		List<SearchCriteria> params = new ArrayList<>();
 
@@ -80,6 +79,6 @@ public class ReservaServiceImpl implements ReservaService {
 			params.add(new SearchCriteria("venta", null, SearchCriteria.OPERATION.equal, venta, null));
 		}
 
-		return reservaDAO.search(params, PageRequest.of(offset, limit));
+		return reservaDAO.search(params);
 	}
 }

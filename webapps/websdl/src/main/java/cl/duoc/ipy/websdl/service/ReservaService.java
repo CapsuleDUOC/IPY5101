@@ -15,6 +15,6 @@ public interface ReservaService {
 
 	Boolean actualizarEstado(final Reserva reserva, final EstadoReserva estado);
 
-	List<Reserva> consultar(final Cliente cliente, final EstadoReserva estado, final Long ventaId, Integer offset, Integer limit);
+	List<Reserva> consultar(final Cliente cliente, final EstadoReserva estado, final Long ventaId);
 
 }
