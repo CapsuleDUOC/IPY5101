@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sale of School Books</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/bxslider/4.2.12/jquery.bxslider.css">
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+    <header id="header"> 
+        <img src="img/iconos/menu_hamburguesa2.png" alt="menu" class="menu" id="menu">
+        <div>
+            <img src="img/logos/logo1.png" alt="logo" class="logo">
+        </div>
+        <div>
+            <nav id="nav">
+                <ul>
+                    <li>
+                        <a href="index.html">
+                            <img src="img/iconos/home.png" alt="home" class="icono">
+                        </a>
+                    </li>
+                    <li>
+                        <a href="categorias.html">
+                            <img src="img/iconos/categorias.png" alt="categoria" class="icono">
+                        </a>
+                    </li>
+                    <li>
+                        <a href="">
+                            <img src="img/iconos/carrito3.png" alt="carrito" class="icono">
+                        </a>
+                    </li>
+                    <li>
+                        <a href="contacto.html">
+                            <img src="img/iconos/contacto.png" alt="contacto" class="icono">
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <div id="contenido">
+       
+        <div class="slider">
+            <div>
+                <img src="img/banner/Libros-de-Basica.jpg" alt="librob1">
+            </div>
+            <div>
+                <img src="img/banner/Libros-de-Ciencias.jpeg" alt="librob2">
+            </div>
+            <div>
+                <img src="img/banner/Libros-de-Informatica.jpg" alt="librob3">
+            </div>
+            <div>
+                <img src="img/banner/Libros-de-Matematicas.jpg" alt="librob4">
+            </div>
+        </div>
+       
+        <div class="libros">
+            <div class="libroT">
+                <div class="contenedor">
+                    <div class="detalles">
+                        <h1>Libros WEB BookStore</h1>
+                        <H1></H1>
+                        <h3>Es una empresa dedicada a la Venta de Libros enfocados en diferecntes categorias, las cuales son:</h3>
+                        <h3>- Enseñanza Básica</h3>
+                        <h3>- Informática</h3>
+                        <h3>- Ciencias Naturales</h3>
+                        <h3>- Matemáticas</h3>
+                        <h3></h3>
+                        <h5>Para acceder a ellos valla a Categorías...</h5>
+                        <img src="img/banner/libros-tecnología.jpg" alt="portada" class="librosex">
+                    </div>
+                </div>
+            </div>            
+        </div>
+        
+
+    </div>
+
+    <footer>
+        <div class="editoriales">
+            <img src="img/logos/Alfaomega.png" alt="alfaomega">
+            <img src="img/logos/logo-marcombo.png" alt="marcombo">
+            <img src="img/logos/pearson.svg" alt="pearson">
+            <img src="img/logos/ra-ma.png" alt="rama">
+        </div>  
+
+        <div class="logo">
+            <img src="img/logos/logo1.png" alt="logo">
+        </div>
+    </footer>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/bxslider/4.2.12/jquery.bxslider.min.js"></script>
+  
+    <script>
+      $(document).ready(function(){
+        $('.slider').bxSlider({
+            mode: "fade",
+            auto: true,
+            pause: 2000
+        });
+        
+      });
+    </script>
+
+
+    <script src="js/menu.js"></script>
+
+</body>
+</html>
